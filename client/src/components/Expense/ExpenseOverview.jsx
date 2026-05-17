@@ -1,0 +1,39 @@
+import React, { useEffect, useState } from "react";
+import { LuPlus } from "react-icons/lu";
+import { prepareExpenseLineChartData } from "../../utils/helper";
+import CustomLineChart from "../Charts/CustomLineChart";
+
+const ExpenseOverview = ({ transaction, onExpenseIncome }) => {
+	const [chartData, setChartData] = useState([]);
+
+	useEffect(() => {
+		const result = prepareExpenseLineChartData(transaction);
+		setChartData(result);
+
+		return () => {};
+	}, [transaction]);
+
+	return (
+		<div className="card">
+			<div className="flex justify-between items-center">
+				<div>
+					<h5 className="text-lg text-primary">Expense Overview</h5>
+					<p className="text-xs text-[#EEEEEE] mt-0.5">
+						Track your spending trends over time and gain insights where your
+						money goes.
+					</p>
+				</div>
+
+				<button className="add-btn" onClick={onExpenseIncome}>
+					<LuPlus className="text-lg" />
+					Add Expense
+				</button>
+			</div>
+			<div className="mt-10">
+                <CustomLineChart chartData={chartData} />
+            </div>
+		</div>
+	);
+};
+
+export default ExpenseOverview;
